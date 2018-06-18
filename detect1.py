@@ -14,12 +14,15 @@ import matplotlib as plt
 
 # Input 
 # Training and testing data is present in differnt directories. Both containing positive and negetive examples.
-# Images present in the directory aren't labelled but their names can be used as a label.
-# Names of Negative example starts with an uppercase letter.
+# Images present in the directory aren't labelled but their label can be inferred from the directory they reside in.
+#---train
+#-------logo
+#-------not_logo
+#---validation
+#-------logo
+#-------not_logo
 
 # First load the training data (images(greyscale) in a numpy array).
-# Load the corresponding label using the filename of the images. It will work as the read order is preserved.
-# Labels are going to an array of two elements (0/1) 0 indicates absense and 1 indicates presence of Apple's logo.
 
 train_datagen = image.ImageDataGenerator(rescale = 1./255,
 			     rotation_range = 45,
@@ -68,14 +71,10 @@ model.add( Dense(64 , activation='relu'))
 model.add( Dense(2, activation='softmax' ))
 
 # Specify the optimizer and loss functions to be used.
-# For fine grained control on the optimizer, an instance of it is created.
+# For fine grained control on the optimizer, an instance of it can also be created but I'll stick with the default values.
 epochs = 25
-lrate = 0.01
-decay = lrate/epochs
 
-sgd = SGD( lr=lrate, momentum=0.9 , decay=decay )
-
-# Loss function binary_crossentropy should be prefered.(only two classes)
+# Loss function categorical_crossentropy should be prefered.(only two classes)
 
 model.compile(loss = 'categorical_crossentropy',
 	      optimizer = 'SGD',
@@ -84,7 +83,7 @@ model.compile(loss = 'categorical_crossentropy',
 
 print(model.summary())
 model.fit_generator(train_generator,
-		    epochs=5,
+		    epochs=25,
 		    validation_data = validation_generator,
 
 		    )

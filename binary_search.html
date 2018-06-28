@@ -1,0 +1,56 @@
+<html>
+
+<head></head>
+<script >
+  var number_of_guesses = 10, secret_num = Math.floor( Math.random()*100) + 1 , attempt = 0;
+
+
+  function check(){
+    console.log("secret is" + secret_num);
+    if(attempt++ >= number_of_guesses){
+      document.getElementById('result').innerHTML = "You lost";
+      console.log('reset called');
+      reset();
+      return;
+    }
+    var guess = Number(document.getElementById('guess').value);
+    console.log(guess);
+
+    if(guess == secret_num){
+      document.getElementById('result').innerHTML = "You Won";
+      reset();
+    }
+    else if(guess > secret_num){
+      document.getElementById('result').innerHTML = "Your guess is GREATER than secret";
+      document.getElementById('answers').innerHTML += " "+ guess;
+    }
+    else {
+      document.getElementById('result').innerHTML = "Your Guess is SMALLER than secret";
+      document.getElementById('answers').innerHTML += " "+ guess;
+    }
+  }
+
+  function reset(){
+    document.getElementById('answers').innerHTML = "Your Previous Guesses";
+    document.getElementById('guess').value = "";
+    secret_num = Math.floor(Math.random()*100) + 1;
+    document.getElementById('result').innerHTML += " Try Again";
+    attempt=0;
+  }
+
+</script>
+<body>
+  <p>You have 10 chances to guess a the hidden number which is between 1 and 100.<br>
+    Enter your Guess :
+  </p>
+  <input id="guess" type="number" > </input> <br>
+
+  <input onclick="check()" type="button" value="Submit" > </input>
+  <br>
+  <p id="answers" >Your Previous Guesses </p>
+  <br>
+  <p id="result"> Result for this guess </p>
+
+</body>
+
+</html>
